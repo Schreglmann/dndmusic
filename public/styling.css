@@ -90,9 +90,11 @@ body {
 
 .atmosphere {
     background-color: #797d62;
+    color: white;
 }
 .ambience {
     background-color: #9b9b7a;
+    color: white;
 }
 .combat {
     background-color: #d9ae94;
@@ -108,7 +110,9 @@ body {
 }
 .stealth {
     background-color: #d08c60;
+    color: white;
 }
 .temple {
     background-color: #997b66;
+    color: white;
 }
