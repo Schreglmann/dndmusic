@@ -32,20 +32,20 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
 
 const player = document.getElementById("player");
 function playAudio(category = "") {
-  if (category != currentCategory && category != "") {
+  if (category != currentCategory && category != "" && typeof category == "string") {
     currentCategory = category;
+  }
+  let audioSource =
+    currentCategory +
+    "/" +
+    audioSources[currentCategory][
+      Math.floor(Math.random() * audioSources[currentCategory].length)
+    ];
+  player.src = audioSource;
+  writeCurrentSong(audioSource);
+  player.play();
 }
-    let audioSource =
-      currentCategory +
-      "/" +
-      audioSources[currentCategory][
-        Math.floor(Math.random() * audioSources[currentCategory].length)
-      ];
-    player.src = audioSource;
-    writeCurrentSong(audioSource);
-    player.play();
-}
-player.addEventListener("ended", playAudio(currentCategory));
+player.addEventListener("ended", playAudio());
 
 function writeCurrentSong(song) {
   fetch("https://dndmusic.schreglmann.at/writeCurrentSong", {
