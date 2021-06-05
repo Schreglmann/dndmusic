@@ -49,7 +49,7 @@ app.post("/writeCurrentSong", (req, res) => {
 });
 
 app.use(express.static("~/dndmusic/music"));
-app.use(express.static("~/dndmusic/js"));
+app.use(express.static("~/dndmusic/public"));
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
 });
