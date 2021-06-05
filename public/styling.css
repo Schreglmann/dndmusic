@@ -89,23 +89,23 @@ body {
 }
 
 .atmosphere {
-    background-color: blue;
+    background-color: #ffadad;
 }
 .ambience {
-    background-color: red;
+    background-color: #ffd6a5;
 }
 .combat {
-    background-color: yellow;
+    background-color: #fdffb6;
 }
 .feeling {
-    background-color: green;
+    background-color: #caffbf;
 }
 .location {
-    background-color: grey;
+    background-color: #9bf6ff;
 }
 .stealth {
-    background-color: orange;
+    background-color: #a0c4ff;
 }
 .temple {
-    background-color: cyan;
+    background-color: #bdb2ff;
 }
