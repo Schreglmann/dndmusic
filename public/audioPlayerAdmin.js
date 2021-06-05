@@ -43,8 +43,10 @@ function playAudio(category = "") {
   } else {
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
-    currentAudioSources[currentCategory].indexOf(player.src);
-    currentAudioSources[currentCategory].splice(index, 1);
+    const index = currentAudioSources[currentCategory].indexOf(player.src);
+    if (index > -1) {
+        currentAudioSources[currentCategory].splice(index, 1);
+    }
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
   }
