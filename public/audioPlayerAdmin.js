@@ -1,5 +1,5 @@
 const audioSources = {};
-const currentCategory = "";
+let currentCategory = "";
 
 fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
   credentials: "same-origin",
