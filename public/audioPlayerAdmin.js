@@ -44,9 +44,7 @@ function playAudio(category = "") {
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
     currentAudioSources[currentCategory].indexOf(player.src);
-    if (index > -1) {
-        currentAudioSources[currentCategory].splice(index, 1);
-    }
+    currentAudioSources[currentCategory].splice(index, 1);
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
   }
