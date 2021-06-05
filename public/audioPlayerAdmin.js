@@ -45,7 +45,7 @@ function playAudio(category = "") {
   writeCurrentSong(audioSource);
   player.play();
 }
-player.addEventListener("ended", playAudio());
+player.addEventListener("ended", playAudio);
 
 function writeCurrentSong(song) {
   fetch("https://dndmusic.schreglmann.at/writeCurrentSong", {
