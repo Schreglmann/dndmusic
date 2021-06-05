@@ -58,3 +58,18 @@ body {
 .stopButton {
     flex-grow: 0;
 }
+
+.volumeButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.volumeButton {
+    padding: 20px 30px;
+    flex-grow: 0;
+    justify-content: center;
+}
+#currentVolume {
+    padding: 20px;
+    font-size: 28px;
+}

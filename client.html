@@ -9,10 +9,17 @@
 <body>
     <div class="controlpanels">
         <audio id="player" controls></audio>
+        <div id="currentTime"></div>
+        <div class="volumeButtons">
+            <div id="lowerButton" class="musicButtons volumeButton" onclick="changeVolume('-')">-</div>
+            <div id="currentVolume">1</div>
+            <div id="higherButton" class="musicButtons volumeButton" onclick="changeVolume('+')">+</div>
+        </div>
     </div>
     <br>
 
     <script src="audioPlayerClient.js"></script>
+    <script src="audioPlayerCommon.js"></script>
 </body>
 
 </html>

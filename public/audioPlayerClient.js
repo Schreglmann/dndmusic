@@ -2,6 +2,7 @@ let currentSong = "";
 const player = document.getElementById("player");
 
 function checkSong() {
+    document.getElementById("currentTime").innerHTML = player.currentTime + " / " + player.duration;
 	setTimeout(function () {
 		fetch("https://dndmusic.schreglmann.at/getCurrentSong", {
 			credentials: "same-origin",
