@@ -1,4 +1,5 @@
 const audioSources = {};
+const currentAudioSources = {};
 let currentCategory = "";
 
 fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
@@ -32,18 +33,36 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
 
 const player = document.getElementById("player");
 function playAudio(category = "") {
-  if (category != currentCategory && category != "" && typeof category == "string") {
+  if (
+    category != currentCategory &&
+    category != "" &&
+    typeof category == "string"
+  ) {
+    currentAudioSources = audioSources;
     currentCategory = category;
+  } else {
+    console.log(currentAudioSources[currentCategory]);
+    console.log(currentAudioSources[currentCategory].length);
+    currentAudioSources[currentCategory].indexOf(player.src);
+    if (index > -1) {
+        currentAudioSources[currentCategory].splice(index, 1);
+    }
+    console.log(currentAudioSources[currentCategory]);
+    console.log(currentAudioSources[currentCategory].length);
   }
-  let audioSource =
-    currentCategory +
-    "/" +
-    audioSources[currentCategory][
-      Math.floor(Math.random() * audioSources[currentCategory].length)
-    ];
-  player.src = audioSource;
-  writeCurrentSong(audioSource);
-  player.play();
+  if (currentAudioSources[currentCategory].length > 0) {
+    let audioSource =
+      currentCategory +
+      "/" +
+      currentAudioSources[currentCategory][
+        Math.floor(Math.random() * currentAudioSources[currentCategory].length)
+      ];
+    player.src = audioSource;
+    writeCurrentSong(audioSource);
+    player.play();
+  } else {
+    player.pause();
+  }
 }
 player.addEventListener("ended", playAudio);
 
