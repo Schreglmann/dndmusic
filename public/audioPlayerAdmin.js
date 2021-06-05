@@ -1,5 +1,5 @@
 const audioSources = {};
-const currentAudioSources = {};
+let currentAudioSources = {};
 let currentCategory = "";
 
 fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
