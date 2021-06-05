@@ -41,7 +41,7 @@ function playAudio(category) {
 player.addEventListener("ended", playAudio);
 
 function writeCurrentSong(song) {
-	fetch("https.//dndmusic.schreglmann.at/writeCurrentSong", {
+	fetch("https://dndmusic.schreglmann.at/writeCurrentSong", {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
