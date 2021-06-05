@@ -1,12 +1,20 @@
 const volumeSteps = 0.1;
+let muted = false;
 
 function changeVolume(higherLower) {
-    const player = document.getElementById("player");
-    console.log(player.volume);
-    if (higherLower == '+' && (player.volume + volumeSteps) <= 1) {
-        player.volume += volumeSteps;
-    } else if (higherLower == '-' && (player.volume - volumeSteps) >= 0) {
-        player.volume -= volumeSteps;
+  if (higherLower == "mute") {
+    if (muted == false) {
+      muted = player.volume;
+      player.volume = 0;
+    } else {
+      player.volume = muted;
+      muted = false;
     }
-    document.getElementById('currentVolume').innerHTML = (Math.round(player.volume * 10) / 10);
+  } else if (higherLower == "+" && player.volume + volumeSteps <= 1) {
+    player.volume += volumeSteps;
+  } else if (higherLower == "-" && player.volume - volumeSteps >= 0) {
+    player.volume -= volumeSteps;
+  }
+  document.getElementById("currentVolume").innerHTML =
+    Math.round(player.volume * 10) / 10;
 }
