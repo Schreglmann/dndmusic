@@ -25,13 +25,13 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
             button.className = "musicButtons";
             button.id = category;
 
-            if (category.includes('Atmosphere')) button.className = 'atmosphere';
-            else if (category.includes('Ambience')) button.className = 'ambience';
-            else if (category.includes('Combat')) button.className = 'combat';
-            else if (category.includes('Feeling')) button.className = 'feeling';
-            else if (category.includes('Location')) button.className = 'location';
-            else if (category.includes('Stealth')) button.className = 'stealth';
-            else if (category.includes('Temple')) button.className = 'temple';
+            if (category.includes('Atmosphere')) button.className += 'atmosphere';
+            else if (category.includes('Ambience')) button.className += 'ambience';
+            else if (category.includes('Combat')) button.className += 'combat';
+            else if (category.includes('Feeling')) button.className += 'feeling';
+            else if (category.includes('Location')) button.className += 'location';
+            else if (category.includes('Stealth')) button.className += 'stealth';
+            else if (category.includes('Temple')) button.className += 'temple';
 
             button.onclick = () => playAudio(category);
             var body = document.getElementById("musicButtons");
