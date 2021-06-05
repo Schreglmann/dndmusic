@@ -42,15 +42,10 @@ function playAudio(category = "") {
     currentAudioSources = audioSources;
     currentCategory = category;
   } else {
-    console.log(currentAudioSources[currentCategory]);
-    console.log(currentAudioSources[currentCategory].length);
     const index = currentAudioSources[currentCategory].indexOf(currentSong);
-    console.log(index);
     if (index > -1) {
       currentAudioSources[currentCategory].splice(index, 1);
     }
-    console.log(currentAudioSources[currentCategory]);
-    console.log(currentAudioSources[currentCategory].length);
   }
   if (currentAudioSources[currentCategory].length > 0) {
     currentSong =
