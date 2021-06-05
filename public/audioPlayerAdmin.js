@@ -31,7 +31,7 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
   });
 
 const player = document.getElementById("player");
-function playAudio(category = '') {
+function playAudio(category = "") {
   if (category != currentCategory) {
     currentCategory = category;
     let audioSource =
@@ -45,7 +45,7 @@ function playAudio(category = '') {
     player.play();
   }
 }
-player.addEventListener("ended", playAudio(category));
+player.addEventListener("ended", playAudio(currentCategory));
 
 function writeCurrentSong(song) {
   fetch("https://dndmusic.schreglmann.at/writeCurrentSong", {
