@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>DnD Music</title>
+    <link rel="stylesheet" href="styling.css">
+</head>
+
+<body>
+    <div class="controlpanels">
+        <audio id="player" controls></audio>
+        <div class="musicButtons stopButton" onclick="document.getElementById('player').pause(); writeCurrentSong('stop')">Stop</div>
+    </div>
+    <br>
+    <div id="musicButtons"></div>
+
+    <script src="audioPlayerAdmin.js"></script>
+</body>
+
+</html>
