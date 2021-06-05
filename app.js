@@ -25,7 +25,7 @@ app.get("/admin", (req, res) => {
 });
 app.get("/getFiles", (req, res) => {
 	let musicFiles = [];
-	fs.readdir("~/dndmusic/" + req.query.path, (err, files) => {
+	fs.readdir(req.query.path, (err, files) => {
 		if (files) {
 			files.forEach((file) => {
 				if (file[0] != ".") musicFiles.push(file);
@@ -36,20 +36,20 @@ app.get("/getFiles", (req, res) => {
 });
 
 app.get("/getCurrentSong", (req, res) => {
-	fs.readFile("~/dndmusic/currentSong.txt", "utf8", function (err, data) {
+	fs.readFile("currentSong.txt", "utf8", function (err, data) {
 		if (err) throw err;
 		res.send({'currentSong': data});
 	});
 });
 
 app.post("/writeCurrentSong", (req, res) => {
-	fs.writeFile("~/dndmusic/currentSong.txt", req.body.currentSong, () => {
+	fs.writeFile("currentSong.txt", req.body.currentSong, () => {
         res.end("success");
 	});
 });
 
-app.use(express.static("~/dndmusic/music"));
-app.use(express.static("~/dndmusic/public"));
+app.use(express.static("music"));
+app.use(express.static("public"));
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
 });
