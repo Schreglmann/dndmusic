@@ -33,7 +33,7 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
 const player = document.getElementById("player");
 function playAudio(category) {
   if (category != currentCategory) {
-    currentCategory = currentCategory;
+    currentCategory = category;
     let audioSource =
       currentCategory +
       "/" +
