@@ -26,9 +26,9 @@ body {
 	padding: 20px 52px;
 	box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.5);
 	line-height: 1.25;
-	background: #ffc6ff;
+	background: #f1dca7;
 	text-decoration: none;
-	color: black;
+	color: white;
 	font-size: 20px;
 	letter-spacing: .08em;
 	text-transform: uppercase;
@@ -89,23 +89,23 @@ body {
 }
 
 .atmosphere {
-    background-color: #ffadad;
+    background-color: #797d62;
 }
 .ambience {
-    background-color: #ffd6a5;
+    background-color: #9b9b7a;
 }
 .combat {
-    background-color: #fdffb6;
+    background-color: #d9ae94;
 }
 .feeling {
-    background-color: #caffbf;
+    background-color: #f1dca7;
 }
 .location {
-    background-color: #9bf6ff;
+    background-color: #ffcb69;
 }
 .stealth {
-    background-color: #a0c4ff;
+    background-color: #d08c60;
 }
 .temple {
-    background-color: #bdb2ff;
+    background-color: #997b66;
 }
