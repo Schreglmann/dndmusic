@@ -45,7 +45,7 @@ function playAudio(category = '') {
     player.play();
   }
 }
-player.addEventListener("ended", playAudio);
+player.addEventListener("ended", playAudio(category));
 
 function writeCurrentSong(song) {
   fetch("https://dndmusic.schreglmann.at/writeCurrentSong", {
