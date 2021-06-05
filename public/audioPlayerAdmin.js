@@ -1,6 +1,7 @@
 const audioSources = {};
 let currentAudioSources = {};
 let currentCategory = "";
+let currentSong = "";
 
 fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
   credentials: "same-origin",
@@ -43,20 +44,20 @@ function playAudio(category = "") {
   } else {
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
-    const index = currentAudioSources[currentCategory].indexOf(player.src);
+    const index = currentAudioSources[currentCategory].indexOf(currentSong);
+    console.log(index);
     if (index > -1) {
-        currentAudioSources[currentCategory].splice(index, 1);
+      currentAudioSources[currentCategory].splice(index, 1);
     }
     console.log(currentAudioSources[currentCategory]);
     console.log(currentAudioSources[currentCategory].length);
   }
   if (currentAudioSources[currentCategory].length > 0) {
-    let audioSource =
-      currentCategory +
-      "/" +
+    currentSong =
       currentAudioSources[currentCategory][
         Math.floor(Math.random() * currentAudioSources[currentCategory].length)
       ];
+    let audioSource = currentCategory + "/" + currentSong;
     player.src = audioSource;
     writeCurrentSong(audioSource);
     player.play();
