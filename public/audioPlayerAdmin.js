@@ -24,6 +24,15 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
             button.innerHTML = category;
             button.className = "musicButtons";
             button.id = category;
+
+            if (category.includes('ATMOSPHERE')) button.className = 'atmosphere';
+            else if (category.includes('AMBIENCE')) button.className = 'ambience';
+            else if (category.includes('COMBAT')) button.className = 'combat';
+            else if (category.includes('FEELING')) button.className = 'feeling';
+            else if (category.includes('LOCATION')) button.className = 'location';
+            else if (category.includes('STEALTH')) button.className = 'stealth';
+            else if (category.includes('TEMPLE')) button.className = 'temple';
+
             button.onclick = () => playAudio(category);
             var body = document.getElementById("musicButtons");
             body.appendChild(button);

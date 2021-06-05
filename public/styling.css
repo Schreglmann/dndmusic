@@ -87,3 +87,25 @@ body {
     padding: 20px;
     font-size: 28px;
 }
+
+.atmosphere {
+    background-color: blue;
+}
+.ambience {
+    background-color: red;
+}
+.combat {
+    background-color: yellow;
+}
+.feeling {
+    background-color: green;
+}
+.location {
+    background-color: grey;
+}
+.stealth {
+    background-color: orange;
+}
+.temple {
+    background-color: cyan;
+}
