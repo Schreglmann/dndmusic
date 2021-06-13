@@ -1,4 +1,4 @@
-const volumeSteps = 0.1;
+const volumeSteps = 0.05;
 let muted = false;
 
 function changeVolume(higherLower) {
