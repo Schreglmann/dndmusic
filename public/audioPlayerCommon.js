@@ -16,5 +16,5 @@ function changeVolume(higherLower) {
     player.volume -= volumeSteps;
   }
   document.getElementById("currentVolume").innerHTML =
-    Math.round(player.volume * 10) / 10;
+    Math.round(player.volume * 100) / 100;
 }
