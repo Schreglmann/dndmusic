@@ -1,0 +1,16 @@
+{
+    "short_name": "DnDMusic",
+    "name": "DnDMusic",
+    "icons": [
+      {
+        "src":"images/dnd-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/?utm_source=homescreen",
+    "background_color": "#000",
+    "theme_color": "#D3D3D3",
+    "display": "standalone"
+  }
+  

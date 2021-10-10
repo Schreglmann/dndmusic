@@ -50,6 +50,7 @@ app.post("/writeCurrentSong", (req, res) => {
 
 app.use(express.static("music"));
 app.use(express.static("public"));
+app.use(express.static("images"));
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
 });
