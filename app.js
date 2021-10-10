@@ -10,12 +10,12 @@ app.use(
 		extended: true,
 	})
 );
-
+app.use(express.static("public"));
 app.use(express.json());
-// app.use(basicAuth({
-//     challenge: true,
-//     users: { 'admin': 'admin' }
-// }))
+app.use(basicAuth({
+    challenge: true,
+    users: { 'admin': 'admin' }
+}))
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client.html"));
@@ -49,7 +49,6 @@ app.post("/writeCurrentSong", (req, res) => {
 });
 
 app.use(express.static("music"));
-app.use(express.static("public"));
 app.use(express.static("images"));
 app.listen(port, () => {
 	console.log(`DnDMusic listening at http://localhost:${port}`);
