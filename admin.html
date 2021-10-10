@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -26,8 +26,12 @@
 
 <body>
     <div class="controlpanels">
-        <audio id="player" controls></audio>
-        <div class="musicButtons stopButton" onclick="document.getElementById('player').pause(); writeCurrentSong('stop')">Stop</div>
+        <div class="player_with_text">
+            <audio id="player" controls></audio>
+            <div id="currentSong"></div>
+        </div>
+        <div class="musicButtons stopButton"
+            onclick="document.getElementById('player').pause(); writeCurrentSong('stop')">Stop</div>
         <div class="volumeButtons">
             <div id="muteButton" class="musicButtons volumeButton" onclick="changeVolume('mute')">Mute/Unmute</div>
             <div id="lowerButton" class="musicButtons volumeButton" onclick="changeVolume('-')">-</div>
@@ -41,15 +45,15 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-          console.log("Will the service worker register?");
-          navigator.serviceWorker.register('service-worker.js')
-            .then(function(reg){
-              console.log("Yes, it did.");
-            }).catch(function(err) {
-              console.log("No it didn't. This happened: ", err)
-            });
+            console.log("Will the service worker register?");
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function (reg) {
+                    console.log("Yes, it did.");
+                }).catch(function (err) {
+                    console.log("No it didn't. This happened: ", err)
+                });
         }
-      </script>
+    </script>
 
     <script src="audioPlayerAdmin.js"></script>
     <script src="audioPlayerCommon.js"></script>
