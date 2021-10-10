@@ -11,6 +11,7 @@ app.use(
 	})
 );
 app.use(express.static("public"));
+app.use(express.static("images"));
 app.use(express.json());
 app.use(basicAuth({
     challenge: true,
@@ -49,7 +50,6 @@ app.post("/writeCurrentSong", (req, res) => {
 });
 
 app.use(express.static("music"));
-app.use(express.static("images"));
 app.listen(port, () => {
 	console.log(`DnDMusic listening at http://localhost:${port}`);
 });
