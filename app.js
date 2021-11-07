@@ -6,6 +6,12 @@ const fs = require("fs");
 const basicAuth = require("express-basic-auth");
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 
+let currentCategory = new Array();
+let currentCategorySongs = new Array();
+let currentSong = '';
+let timeout;
+let songDuration;
+
 app.use(
 	express.urlencoded({
 		extended: true,
@@ -41,10 +47,7 @@ app.get("/getFiles", (req, res) => {
 });
 
 app.get("/getCurrentSong", (req, res) => {
-	fs.readFile("currentSong.txt", "utf8", function (err, data) {
-		if (err) throw err;
-		res.send({'currentSong': data});
-	});
+    res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
 });
 
 app.post("/writeCurrentSong", (req, res) => {
@@ -68,12 +71,6 @@ app.listen(port, () => {
 	console.log(`DnDMusic listening at http://localhost:${port}`);
 });
 
-
-let currentCategory = new Array();
-let currentCategorySongs = new Array();
-let currentSong = '';
-let timeout;
-
 let playNewCategory = category => {
     if (timeout) clearTimeout(timeout);
     currentCategory = category;
@@ -95,6 +92,7 @@ let playNewSong = () => {
     fs.writeFile("currentSong.txt", currentCategory + '/' + currentSong, () => {});
 
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
+        songDuration = duration;
         if (currentCategorySongs.length > 0) timeout = setTimeout(playNewSong, duration*1000);
         else {
             timeout = setTimeout(restartPlaylist, duration*1000)

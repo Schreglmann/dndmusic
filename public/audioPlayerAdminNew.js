@@ -52,7 +52,7 @@ let writeSongName = () => {
     })
     .then((response) => response.json())
     .then((data) => {
-        document.getElementById("currentTime").innerHTML = data.currentSong;
+        document.getElementById("currentTime").innerHTML = data.currentSong + "<br>Dauer: " + Math.round(data.duration) + " Sekunden";
     });
     setTimeout(writeSongName, 1000);
 }
