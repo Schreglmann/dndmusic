@@ -50,12 +50,6 @@ app.get("/getCurrentSong", (req, res) => {
     res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
 });
 
-app.post("/writeCurrentSong", (req, res) => {
-	fs.writeFile("currentSong.txt", req.body.currentSong, () => {
-        res.end("success");
-	});
-});
-
 app.post("/newCategory", (req, res) => {
     playNewCategory(req.body.category);
     res.end("success");
@@ -89,8 +83,6 @@ let playNewSong = () => {
     currentSong = currentCategorySongs[0];
     currentCategorySongs.shift();
 
-    fs.writeFile("currentSong.txt", currentCategory + '/' + currentSong, () => {});
-
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
         songDuration = duration;
         if (currentCategorySongs.length > 0) timeout = setTimeout(playNewSong, duration*1000);
@@ -106,5 +98,5 @@ let restartPlaylist = () => {
 
 let stop = () => {
     if (timeout) clearTimeout(timeout);
-	fs.writeFile("currentSong.txt", 'stop', () => {});
+	currentSong = null;
 }
