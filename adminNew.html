@@ -6,6 +6,7 @@
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>DnD Music</title>
     <link rel="stylesheet" href="styling.css">
+    <link rel="manifest" href="manifest_admin.json">
     <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
@@ -25,23 +26,25 @@
 
 <body>
     <div class="controlpanels">
-        <div class="player_with_text">
-            <audio id="player" controls></audio>
-            <div id="currentSong"></div>
-        </div>
-        <div class="musicButtons stopButton"
-            onclick="document.getElementById('player').pause(); writeCurrentSong('stop')">Stop</div>
-        <div class="volumeButtons">
-            <div id="muteButton" class="musicButtons volumeButton" onclick="changeVolume('mute')">Mute/Unmute</div>
-            <div id="lowerButton" class="musicButtons volumeButton" onclick="changeVolume('-')">-</div>
-            <div id="currentVolume">1</div>
-            <div id="higherButton" class="musicButtons volumeButton" onclick="changeVolume('+')">+</div>
-        </div>
+        <div class="musicButtons stopButton" onclick="stopMusic()">Stop</div>
     </div>
     <br>
     <div id="musicButtons"></div>
+    <button id="btnSave" class="btnSave">Add</button>
 
-    <script src="audioPlayerAdmin.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            console.log("Will the service worker register?");
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function (reg) {
+                    console.log("Yes, it did.");
+                }).catch(function (err) {
+                    console.log("No it didn't. This happened: ", err)
+                });
+        }
+    </script>
+
+    <script src="audioPlayerAdminNew.js"></script>
     <script src="audioPlayerCommon.js"></script>
 </body>
 
