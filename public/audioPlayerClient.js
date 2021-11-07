@@ -2,7 +2,7 @@ let currentSong = "";
 const player = document.getElementById("player");
 let remoteUrl;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';
-else remoteUrl = 'https://dnd.schreglmann.at';
+else remoteUrl = 'https://dndmusic.schreglmann.at';
 
 function checkSong() {
     document.getElementById("currentTime").innerHTML = "Aktuelle Wiedergabe: " + Math.round(player.currentTime) + " sec / " + Math.round(player.duration) + " sec";
