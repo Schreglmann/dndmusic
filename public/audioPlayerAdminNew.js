@@ -2,8 +2,11 @@ const audioSources = {};
 let currentAudioSources = {};
 let currentCategory = "";
 let currentSong = "";
+let remoteUrl;
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';
+else remoteUrl = 'https://dnd.schreglmann.at';
 
-fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
+fetch(remoteUrl + "/getFiles?path=music", {
   credentials: "same-origin",
 })
   .then((response) => response.json())
@@ -11,7 +14,7 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
     data.forEach((category) => {
       if (category[0] != ".") {
         fetch(
-          "https://dndmusic.schreglmann.at/getFiles?path=music/" + category,
+          remoteUrl + "/getFiles?path=music/" + category,
           {
             credentials: "same-origin",
           }
@@ -47,19 +50,22 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
   });
 
 let writeSongName = () => { 
-    fetch("https://dndmusic.schreglmann.at/getCurrentSong", {
+    fetch(remoteUrl + "/getCurrentSong", {
         credentials: "same-origin",
     })
     .then((response) => response.json())
     .then((data) => {
-        document.getElementById("currentTime").innerHTML = data.currentSong + "<br>Dauer: " + Math.round(data.duration) + " Sekunden";
+        let innerHtml = '';
+        if (data.currentSong) innerHtml += data.currentSong;
+        if (data.duration) innerHtml += "<br>Dauer: " + Math.round(data.duration) + " Sekunden";
+        document.getElementById("currentTime").innerHTML = innerHtml;
     });
     setTimeout(writeSongName, 1000);
 }
 writeSongName();
 
 function playAudio(category = "") {
-    fetch("https://dndmusic.schreglmann.at/newCategory", {
+    fetch(remoteUrl + "/newCategory", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -70,7 +76,7 @@ function playAudio(category = "") {
 }
 
 function stopMusic() {
-    fetch("https://dndmusic.schreglmann.at/stop", {
+    fetch(remoteUrl + "/stop", {
       method: "POST",
       headers: {
         Accept: "application/json",

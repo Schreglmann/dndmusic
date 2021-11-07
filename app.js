@@ -6,7 +6,7 @@ const fs = require("fs");
 const basicAuth = require("express-basic-auth");
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 
-let currentCategory = new Array();
+let currentCategory = '';
 let currentCategorySongs = new Array();
 let currentSong = '';
 let timeout;
@@ -31,9 +31,6 @@ app.get("/", (req, res) => {
 app.get("/admin", (req, res) => {
 	res.sendFile(path.join(__dirname, "/adminNew.html"));
 });
-app.get("/admin_old", (req, res) => {
-	res.sendFile(path.join(__dirname, "/admin.html"));
-});
 app.get("/getFiles", (req, res) => {
 	let musicFiles = [];
 	fs.readdir(req.query.path, (err, files) => {
@@ -47,7 +44,8 @@ app.get("/getFiles", (req, res) => {
 });
 
 app.get("/getCurrentSong", (req, res) => {
-    res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
+    if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
+    else res.send({});
 });
 
 app.post("/newCategory", (req, res) => {
