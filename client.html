@@ -41,6 +41,12 @@
     </div>
     <br>
 
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+
     <script src="socket.io.min.js"></script>
     <script src="audioPlayerClient.js"></script>
     <script src="audioPlayerCommon.js"></script>

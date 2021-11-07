@@ -3,6 +3,8 @@ let currentAudioSources = {};
 let currentCategory = "";
 let currentSong = "";
 let remoteUrl;
+let timestampTimeout;
+let timePassed = 0;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';
 else remoteUrl = 'https://dndmusic.schreglmann.at';
 
@@ -49,16 +51,23 @@ fetch(remoteUrl + "/getFiles?path=music", {
     });
   });
 
+  let showTimestamps = message => {
+    let innerHtml = '';
+    if (message.currentSong) innerHtml += message.currentSong;
+    if (message.duration) innerHtml += "<br>Dauer: " + timePassed + ' / ' + Math.round(message.duration) + " Sekunden";
+    if (message.stopped) innerHtml = 'Song stopped';
+    document.getElementById("currentTime").innerHTML = innerHtml;
+    timePassed++;
+    timestampTimeout = setTimeout(showTimestamps, 1000, message);
+  }
+
 var socket = io();
 socket.on('newSong', function (data) {
     let message = JSON.parse(data);
-    console.log(message);
     if (message) {
-        let innerHtml = '';
-        if (message.currentSong) innerHtml += message.currentSong;
-        if (message.duration) innerHtml += "<br>Dauer: " + Math.round(message.duration) + " Sekunden";
-        if (message.stopped) innerHtml = 'Song stopped';
-        document.getElementById("currentTime").innerHTML = innerHtml;
+        if (timestampTimeout) clearTimeout(timestampTimeout);
+        timePassed = 0;
+        showTimestamps(message);
     }
 });
 
