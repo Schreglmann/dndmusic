@@ -25,6 +25,21 @@ app.use(basicAuth({
     users: { 'admin': 'admin' }
 }))
 
+const http = require('http');
+const WebSocketServer = require('websocket').server;
+let connection;
+
+const server = http.createServer();
+server.listen(9898);
+
+const wsServer = new WebSocketServer({
+    httpServer: server
+});
+
+wsServer.on('request', function(request) {
+    connection = request.accept(null, request.origin);
+});
+
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client.html"));
 });
@@ -80,6 +95,7 @@ let playNewCategory = category => {
 }
 let playNewSong = () => {
     currentSong = currentCategorySongs[0];
+    if (connection) connection.sendUTF(JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration}));
     currentCategorySongs.shift();
 
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
@@ -98,4 +114,5 @@ let restartPlaylist = () => {
 let stop = () => {
     if (timeout) clearTimeout(timeout);
 	currentSong = 'stop';
+    if (connection) connection.sendUTF(JSON.stringify({'currentSong': currentSong}));
 }

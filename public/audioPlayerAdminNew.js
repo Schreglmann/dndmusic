@@ -49,21 +49,18 @@ fetch(remoteUrl + "/getFiles?path=music", {
     });
   });
 
-let writeSongName = () => { 
-    fetch(remoteUrl + "/getCurrentSong", {
-        credentials: "same-origin",
-    })
-    .then((response) => response.json())
-    .then((data) => {
+const ws = new WebSocket('ws://localhost:9898/');
+ws.onmessage = function(e) {
+    let message = JSON.parse(e.data);
+    console.log(message);
+    if (message) {
         let innerHtml = '';
-        if (data.currentSong) innerHtml += data.currentSong;
-        if (data.duration) innerHtml += "<br>Dauer: " + Math.round(data.duration) + " Sekunden";
-        if (data.stopped) innerHtml = 'Song stopped';
+        if (message.currentSong) innerHtml += message.currentSong;
+        if (message.duration) innerHtml += "<br>Dauer: " + Math.round(message.duration) + " Sekunden";
+        if (message.stopped) innerHtml = 'Song stopped';
         document.getElementById("currentTime").innerHTML = innerHtml;
-    });
-    setTimeout(writeSongName, 1000);
-}
-writeSongName();
+    }
+};
 
 function playAudio(category = "") {
     fetch(remoteUrl + "/newCategory", {
