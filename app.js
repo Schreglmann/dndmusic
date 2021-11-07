@@ -95,7 +95,6 @@ let playNewSong = () => {
     fs.writeFile("currentSong.txt", currentCategory + '/' + currentSong, () => {});
 
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
-        console.log(currentSong);
         if (currentCategorySongs.length > 0) timeout = setTimeout(playNewSong, duration*1000);
         else {
             timeout = setTimeout(restartPlaylist, duration*1000)

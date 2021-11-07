@@ -46,6 +46,17 @@ fetch("https://dndmusic.schreglmann.at/getFiles?path=music", {
     });
   });
 
+let writeSongName = () => { 
+    fetch("https://dndmusic.schreglmann.at/getCurrentSong", {
+        credentials: "same-origin",
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        document.getElementById("currentTime").innerHTML = data.currentSong;
+    });
+    setTimeout(writeSongName, 1000);
+}
+writeSongName();
 
 function playAudio(category = "") {
     fetch("https://dndmusic.schreglmann.at/newCategory", {
