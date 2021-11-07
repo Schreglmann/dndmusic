@@ -58,6 +58,7 @@ let writeSongName = () => {
         let innerHtml = '';
         if (data.currentSong) innerHtml += data.currentSong;
         if (data.duration) innerHtml += "<br>Dauer: " + Math.round(data.duration) + " Sekunden";
+        if (data.stopped) innerHtml = 'Song stopped';
         document.getElementById("currentTime").innerHTML = innerHtml;
     });
     setTimeout(writeSongName, 1000);

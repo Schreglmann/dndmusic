@@ -44,7 +44,8 @@ app.get("/getFiles", (req, res) => {
 });
 
 app.get("/getCurrentSong", (req, res) => {
-    if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
+    if (currentSong == 'stop') res.send({'stopped': true});
+    else if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
     else res.send({});
 });
 
@@ -96,5 +97,5 @@ let restartPlaylist = () => {
 
 let stop = () => {
     if (timeout) clearTimeout(timeout);
-	currentSong = null;
+	currentSong = 'stop';
 }
