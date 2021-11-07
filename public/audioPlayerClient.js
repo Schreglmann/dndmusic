@@ -23,9 +23,9 @@ function playAudio(newSong) {
     }
 }
 
-const ws = new WebSocket('ws://localhost:9898/');
-ws.onmessage = function(e) {
-    let message = JSON.parse(e.data);
+var socket = io();
+socket.on('newSong', function (data) {
+    console.log(data);
+    let message = JSON.parse(data);
     playAudio(message.currentSong);
-    console.log(message);
-};
+});

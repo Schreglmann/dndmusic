@@ -1,10 +1,16 @@
 const express = require("express");
 const app = express();
-const port = 3000;
 const path = require("path");
+const http = require('http');
 const fs = require("fs");
 const basicAuth = require("express-basic-auth");
 const { getAudioDurationInSeconds } = require('get-audio-duration');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+io.on('connection', (socket) => {  console.log('a user connected');});
+server.listen(3000, () => {  console.log('listening on *:3000');});
 
 let currentCategory = '';
 let currentCategorySongs = new Array();
@@ -24,21 +30,6 @@ app.use(basicAuth({
     challenge: true,
     users: { 'admin': 'admin' }
 }))
-
-const http = require('http');
-const WebSocketServer = require('websocket').server;
-let connection;
-
-const server = http.createServer();
-server.listen(9898);
-
-const wsServer = new WebSocketServer({
-    httpServer: server
-});
-
-wsServer.on('request', function(request) {
-    connection = request.accept(null, request.origin);
-});
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client.html"));
@@ -75,9 +66,6 @@ app.post("/stop", (req, res) => {
 });
 
 app.use(express.static("music"));
-app.listen(port, () => {
-	console.log(`DnDMusic listening at http://localhost:${port}`);
-});
 
 let playNewCategory = category => {
     if (timeout) clearTimeout(timeout);
@@ -95,7 +83,7 @@ let playNewCategory = category => {
 }
 let playNewSong = () => {
     currentSong = currentCategorySongs[0];
-    if (connection) connection.sendUTF(JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration}));
+    io.sockets.emit('newSong', JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration}));
     currentCategorySongs.shift();
 
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
@@ -114,5 +102,5 @@ let restartPlaylist = () => {
 let stop = () => {
     if (timeout) clearTimeout(timeout);
 	currentSong = 'stop';
-    if (connection) connection.sendUTF(JSON.stringify({'currentSong': currentSong}));
+    io.sockets.emit('newSong', JSON.stringify({'currentSong': currentSong}));
 }

@@ -49,9 +49,9 @@ fetch(remoteUrl + "/getFiles?path=music", {
     });
   });
 
-const ws = new WebSocket('ws://localhost:9898/');
-ws.onmessage = function(e) {
-    let message = JSON.parse(e.data);
+var socket = io();
+socket.on('newSong', function (data) {
+    let message = JSON.parse(data);
     console.log(message);
     if (message) {
         let innerHtml = '';
@@ -60,7 +60,7 @@ ws.onmessage = function(e) {
         if (message.stopped) innerHtml = 'Song stopped';
         document.getElementById("currentTime").innerHTML = innerHtml;
     }
-};
+});
 
 function playAudio(category = "") {
     fetch(remoteUrl + "/newCategory", {
