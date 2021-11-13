@@ -9,6 +9,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+    margin-bottom: 75px;
 }
 
 .controlpanels {
@@ -125,4 +126,18 @@ body {
 .temple {
     background-color: #997b66;
     color: white;
+}
+
+.btnSave--clientonly {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+    .controlpanels {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

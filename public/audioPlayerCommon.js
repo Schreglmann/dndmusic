@@ -44,4 +44,4 @@ document.getElementById("btnSave").addEventListener("click", function() {
         deferredPrompt = null;
       });
     }
-  });
+});
