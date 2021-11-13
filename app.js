@@ -9,7 +9,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-io.on('connection', (socket) => {});
 server.listen(3000, () => {});
 
 let currentCategory = '';
@@ -104,4 +103,15 @@ let stop = () => {
     if (timeout) clearTimeout(timeout);
 	currentSong = 'stop';
     io.sockets.emit('newSong', JSON.stringify({'currentSong': currentSong}));
+}
+io.on('connection', (socket) => {
+    if (currentCategory && currentSong) {
+        timePassed = getTimeLeft(timeout);
+        io.sockets.emit('newSong', JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration, 'timePassed': timePassed}));
+    }
+});
+
+function getTimeLeft() {
+    if (currentSong == 'stop') return 0;
+    return songDuration - Math.abs((timeout._idleStart + timeout._idleTimeout)/1000 - process.uptime());
 }

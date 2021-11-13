@@ -11,13 +11,14 @@ function showTimestamps() {
 
 showTimestamps();
 
-function playAudio(newSong) {
+function playAudio(newSong, duration = 0) {
     document.getElementById("currentTime").innerHTML = "Aktuelle Wiedergabe: " + Math.round(player.currentTime) + " sec / " + Math.round(player.duration) + " sec";
     if (newSong != currentSong) {
         currentSong = newSong;
         player.pause();
         if (currentSong != "stop") {
             player.src = currentSong;
+            player.currentTime = duration;
             player.play();
         }
     }
@@ -27,5 +28,5 @@ var socket = io();
 socket.on('newSong', function (data) {
     console.log(data);
     let message = JSON.parse(data);
-    playAudio(message.currentSong);
+    playAudio(message.currentSong, message.timePassed);
 });

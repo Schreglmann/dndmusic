@@ -66,7 +66,7 @@ socket.on('newSong', function (data) {
     let message = JSON.parse(data);
     if (message) {
         if (timestampTimeout) clearTimeout(timestampTimeout);
-        timePassed = 0;
+        timePassed = message.timePassed ? Math.round(message.timePassed) : 0;
         showTimestamps(message);
     }
 });
