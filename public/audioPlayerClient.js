@@ -29,23 +29,19 @@ function playAudio(newSong, duration = 0) {
 
 var socket = io();
 socket.on('newSong', function (data) {
-    console.log(data);
     let message = JSON.parse(data);
     playAudio(message.currentSong, message.timePassed);
 });
 
 document.getElementById("startButton").addEventListener("click", function() {
-    console.log('Buttonpress');
     let requestStartTime = new Date();
     fetch(remoteUrl + "/getCurrentSong", {
         credentials: "same-origin",
     })
     .then((response) => response.json())
     .then((data) => {
-            console.log(data);
             player.src = data.currentSong;
             player.addEventListener('loadedmetadata', () => {
-                console.log('canplay');
                 player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
                 player.play();
             })
