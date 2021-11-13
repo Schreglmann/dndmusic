@@ -83,11 +83,12 @@ let playNewCategory = category => {
 }
 let playNewSong = () => {
     currentSong = currentCategorySongs[0];
-    io.sockets.emit('newSong', JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration}));
-    currentCategorySongs.shift();
-
+    
     getAudioDurationInSeconds('music/' + currentCategory + '/' + currentSong).then(duration => {
         songDuration = duration;
+        io.sockets.emit('newSong', JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration}));
+        currentCategorySongs.shift();
+
         if (currentCategorySongs.length > 0) timeout = setTimeout(playNewSong, duration*1000);
         else {
             timeout = setTimeout(restartPlaylist, duration*1000)
