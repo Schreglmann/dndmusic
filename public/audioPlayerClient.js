@@ -19,7 +19,7 @@ function playAudio(newSong, duration = 0) {
         player.pause();
         if (currentSong != "stop") {
             player.src = currentSong;
-            player.addEventListener('canplay', () => {
+            player.addEventListener('loadedmetadata', () => {
                 player.currentTime = duration;
                 player.play();
             });
@@ -35,14 +35,17 @@ socket.on('newSong', function (data) {
 });
 
 document.getElementById("startButton").addEventListener("click", function() {
+    console.log('Buttonpress');
     let requestStartTime = new Date();
     fetch(remoteUrl + "/getCurrentSong", {
         credentials: "same-origin",
     })
-        .then((response) => response.json())
-        .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
+            console.log(data);
             player.src = data.currentSong;
-            player.addEventListener('canplay', () => {
+            player.addEventListener('loadedmetadata', () => {
+                console.log('canplay');
                 player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
                 player.play();
             })
