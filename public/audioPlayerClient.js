@@ -19,8 +19,10 @@ function playAudio(newSong, duration = 0) {
         player.pause();
         if (currentSong != "stop") {
             player.src = currentSong;
-            player.currentTime = duration;
-            player.play();
+            player.addEventListener('canplay', () => {
+                player.currentTime = duration;
+                player.play();
+            });
         }
     }
 }
@@ -30,4 +32,19 @@ socket.on('newSong', function (data) {
     console.log(data);
     let message = JSON.parse(data);
     playAudio(message.currentSong, message.timePassed);
+});
+
+document.getElementById("startButton").addEventListener("click", function() {
+    let requestStartTime = new Date();
+    fetch(remoteUrl + "/getCurrentSong", {
+        credentials: "same-origin",
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            player.src = data.currentSong;
+            player.addEventListener('canplay', () => {
+                player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
+                player.play();
+            })
+        });
 });

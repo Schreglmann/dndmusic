@@ -49,8 +49,9 @@ app.get("/getFiles", (req, res) => {
 });
 
 app.get("/getCurrentSong", (req, res) => {
+    timePassed = getTimeLeft(timeout);
     if (currentSong == 'stop') res.send({'stopped': true});
-    else if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration});
+    else if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration, 'timePassed': timePassed});
     else res.send({});
 });
 
