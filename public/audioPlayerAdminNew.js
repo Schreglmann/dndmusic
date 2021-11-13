@@ -33,7 +33,7 @@ fetch(remoteUrl + "/getFiles?path=music", {
             button.className += " location";
         else if (category.includes("Stealth"))
             button.className += " stealth";
-        else if (category.includes("Temple"))
+        else if (category.includes("Temple -"))
             button.className += " temple";
 
         button.onclick = () => playAudio(category);
