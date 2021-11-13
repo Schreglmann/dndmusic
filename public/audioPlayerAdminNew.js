@@ -6,6 +6,7 @@ let remoteUrl;
 let timestampTimeout;
 let timePassed = 0;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';
+else if (location.hostname === "192.168.1.6") remoteUrl = 'http://192.168.1.6:3000';
 else remoteUrl = 'https://dndmusic.schreglmann.at';
 
 fetch(remoteUrl + "/getFiles?path=music", {
