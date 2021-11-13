@@ -22,8 +22,11 @@ function changeVolume(higherLower) {
 }
 
 let deferredPrompt;
+const addBtn = document.querySelector('.btnSave');
+addBtn.style.display = 'none';
 
 window.addEventListener('beforeinstallprompt', function(e) {
+  addBtn.style.display = 'block';
   e.preventDefault();
   deferredPrompt = e;
 });
@@ -40,7 +43,6 @@ document.getElementById("btnSave").addEventListener("click", function() {
         else {
           console.log('User added to home screen');
         }
-  
         deferredPrompt = null;
       });
     }
