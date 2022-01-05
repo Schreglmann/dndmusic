@@ -9,39 +9,44 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remo
 else if (location.hostname === "192.168.1.6") remoteUrl = 'http://192.168.1.6:3000';
 else remoteUrl = 'https://dndmusic.schreglmann.at';
 
-fetch(remoteUrl + "/getFiles?path=music", {
-  credentials: "same-origin",
-})
-  .then((response) => response.json())
-  .then((data) => {
-    data.forEach((category) => {
-      if (category[0] != ".") {
-        var button = document.createElement("div");
-        button.innerHTML = category;
-        button.className = "musicButtons";
-        button.id = category;
-
-        if (category.includes("Atmosphere"))
-            button.className += " atmosphere";
-        else if (category.includes("Ambience"))
-            button.className += " ambience";
-        else if (category.includes("Combat"))
-            button.className += " combat";
-        else if (category.includes("Feeling"))
-            button.className += " feeling";
-        else if (category.includes("Location"))
-            button.className += " location";
-        else if (category.includes("Stealth"))
-            button.className += " stealth";
-        else if (category.includes("Temple -"))
-            button.className += " temple";
-
-        button.onclick = () => playAudio(category);
-        var body = document.getElementById("musicButtons");
-        body.appendChild(button);
-      }
+let loadMusic = type => {
+fetch(remoteUrl + "/getFiles?path=" + type, {
+    credentials: "same-origin",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((category) => {
+        if (category[0] != ".") {
+          var button = document.createElement("div");
+          button.innerHTML = category;
+          button.className = type == 'music' ? "musicButtons" : "ambientButtons";
+          button.id = category;
+  
+          if (category.includes("Atmosphere"))
+              button.className += " atmosphere";
+          else if (category.includes("Ambience"))
+              button.className += " ambience";
+          else if (category.includes("Combat"))
+              button.className += " combat";
+          else if (category.includes("Feeling"))
+              button.className += " feeling";
+          else if (category.includes("Location"))
+              button.className += " location";
+          else if (category.includes("Stealth"))
+              button.className += " stealth";
+          else if (category.includes("Temple -"))
+              button.className += " temple";
+  
+          button.onclick = () => type == 'music' ? playAudio(category) : playAmbient(category);
+          var body = type == 'music' ? document.getElementById("musicButtons") : document.getElementById("ambientButtons");
+          body.appendChild(button);
+        }
+      });
     });
-  });
+}
+
+loadMusic('music');
+loadMusic('ambient');
 
   let showTimestamps = message => {
     let innerHtml = '';
@@ -63,6 +68,13 @@ socket.on('newSong', function (data) {
     }
 });
 
+socket.on('newAmbient', function (data) {
+    let message = JSON.parse(data);
+    if (message) {
+        console.log(message);
+    }
+});
+
 function playAudio(category = "") {
     fetch(remoteUrl + "/newCategory", {
       method: "POST",
@@ -70,7 +82,18 @@ function playAudio(category = "") {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ category: category }),
+      body: JSON.stringify({ category: category, type: 'music' }),
+    }); 
+}
+
+function playAmbient(category = "") {
+    fetch(remoteUrl + "/newCategory", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ category: category, type: 'ambient' }),
     }); 
 }
 

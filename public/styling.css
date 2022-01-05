@@ -25,7 +25,7 @@ body {
     justify-content: space-between;
 }
 
-.musicButtons {
+.musicButtons, .ambientButtons{
     cursor: pointer;
 	margin: 5px;
 	flex-grow: 1;
@@ -47,7 +47,7 @@ body {
 	overflow: hidden;
 }
 
-.musicButtons:after {
+.musicButtons:after, .ambientButtons:after {
 	content: "";
 	position: absolute;
 	width: 0;
@@ -61,7 +61,7 @@ body {
 	transition: width .3s ease, height .3s ease;
 }
 
-.musicButtons:hover {
+.musicButtons:hover, .ambientButtons:hover {
 	background: darken(#ffc6ff, 7%);
 }
 
@@ -150,7 +150,7 @@ body {
     body {
         margin: 10px;
     }
-    .musicButtons {
+    .musicButtons, .ambientButtons {
         font-size: 18px;
         margin: 3px;
         padding: 15px 16px;

@@ -12,9 +12,11 @@ const io = new Server(server);
 server.listen(3000, () => {});
 
 let currentCategory = '';
+let currentCategoryAmbient = new Array();
 let currentCategorySongs = new Array();
 let currentSong = '';
 let timeout;
+let activeAmbient = {infos: {}, timeouts: {}};
 let songDuration;
 
 app.use(
@@ -56,7 +58,8 @@ app.get("/getCurrentSong", (req, res) => {
 });
 
 app.post("/newCategory", (req, res) => {
-    playNewCategory(req.body.category);
+    if (req.body.type == 'music') playNewCategory(req.body.category);
+    else if (req.body.type == 'ambient') playNewAmbientCategory(req.body.category);
     res.end("success");
 });
 
@@ -79,6 +82,44 @@ let playNewCategory = category => {
             currentCategorySongs = currentCategorySongs.sort((a, b) => 0.5 - Math.random());
             playNewSong();
 		}
+    });
+}
+
+let playNewAmbientCategory = category => {
+    if (activeAmbient.timeouts[category] != undefined) {
+        clearTimeout(activeAmbient.timeouts[category].timeout);
+        activeAmbient.timeouts[category] = undefined;
+        activeAmbient.infos[category] = undefined;
+        io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
+    } else {
+        fs.readdir('ambient/' + category, (err, files) => {
+            if (files) {
+                files.forEach((file) => {
+                    if (file[0] != ".") currentCategoryAmbient.push(file);
+                });
+                currentCategoryAmbient = currentCategoryAmbient.sort((a, b) => 0.5 - Math.random());
+                playNewAmbient(category);
+            }
+        });
+    }
+}
+let playNewAmbient = ambientCategory => {
+    currentAmbient = currentCategoryAmbient[0];
+
+    getAudioDurationInSeconds('ambient/' + ambientCategory + '/' + currentAmbient).then(duration => {
+        activeAmbient.infos[ambientCategory] = {}
+        activeAmbient.infos[ambientCategory].duration = duration;
+        activeAmbient.infos[ambientCategory].category = ambientCategory;
+        activeAmbient.infos[ambientCategory].ambient = ambientCategory + '/' + currentAmbient;
+        songDuration = duration;
+
+        io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
+        currentCategoryAmbient.shift();
+
+        if (currentCategoryAmbient.length > 0) activeAmbient.timeouts[ambientCategory] = setTimeout(playNewAmbient, duration*1000);
+        else {
+            activeAmbient.timeouts[ambientCategory] = setTimeout(restartPlaylist, duration*1000, ambientCategory);
+        }
     });
 }
 let playNewSong = () => {
