@@ -12,7 +12,6 @@ const io = new Server(server);
 server.listen(3000, () => {});
 
 let currentCategory = '';
-let currentCategoryAmbient = new Array();
 let currentCategorySongs = new Array();
 let currentSong = '';
 let timeout;
@@ -97,18 +96,19 @@ let playNewAmbientCategory = category => {
         activeAmbient.infos[category] = undefined;
         io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
     } else {
+        let currentCategoryAmbient = new Array();
         fs.readdir('ambient/' + category, (err, files) => {
             if (files) {
                 files.forEach((file) => {
                     if (file[0] != ".") currentCategoryAmbient.push(file);
                 });
                 currentCategoryAmbient = currentCategoryAmbient.sort((a, b) => 0.5 - Math.random());
-                playNewAmbient(category);
+                playNewAmbient(category, currentCategoryAmbient);
             }
         });
     }
 }
-let playNewAmbient = ambientCategory => {
+let playNewAmbient = (ambientCategory, currentCategoryAmbient) => {
     currentAmbient = currentCategoryAmbient[0];
 
     getAudioDurationInSeconds('ambient/' + ambientCategory + '/' + currentAmbient).then(duration => {
@@ -120,7 +120,7 @@ let playNewAmbient = ambientCategory => {
 
         // currentCategoryAmbient.shift();
         
-        activeAmbient.timeouts[ambientCategory] = setTimeout(playNewAmbient, duration*1000, ambientCategory);
+        activeAmbient.timeouts[ambientCategory] = setTimeout(playNewAmbient, duration*1000, ambientCategory, currentCategoryAmbient);
         sendAmbientSocket();
     });
 }

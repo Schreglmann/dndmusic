@@ -1,5 +1,4 @@
 let currentSong = "";
-const player = document.getElementById("player");
 let remoteUrl;
 let activeAmbients = new Array();
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';

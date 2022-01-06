@@ -1,10 +1,13 @@
 const volumeSteps = new Array (1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.18, 0.16, 0.14, 0.12, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01);
 let muted = false;
+const player = document.getElementById("player");
 let currentVolume = localStorage.getItem('volume');
 let currentVolumeStep = localStorage.getItem('volumeStep') ? localStorage.getItem('volumeStep') : 0;
 
-player.volume = currentVolume;
-document.getElementById("currentVolume").innerHTML = currentVolume;
+if (player) {
+    player.volume = currentVolume;
+    document.getElementById("currentVolume").innerHTML = currentVolume;
+}
 currentVolumeStep = parseInt(currentVolumeStep);
 
 function changeVolume(higherLower) {
