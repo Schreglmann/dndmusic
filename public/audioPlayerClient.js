@@ -1,6 +1,7 @@
 let currentSong = "";
 const player = document.getElementById("player");
 let remoteUrl;
+let activeAmbients = new Array();
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") remoteUrl = 'http://localhost:3000';
 else if (location.hostname === "192.168.1.6") remoteUrl = 'http://192.168.1.6:3000';
 else remoteUrl = 'https://dndmusic.schreglmann.at';
@@ -32,6 +33,39 @@ socket.on('newSong', function (data) {
     let message = JSON.parse(data);
     playAudio(message.currentSong, message.timePassed);
 });
+socket.on('newAmbient', function (data) {
+    let message = JSON.parse(data);
+    let ambientsInRequest = new Array();
+    Object.entries(message).forEach(ambient => {
+        ambientsInRequest.push(ambient[1].category);
+        if (!activeAmbients.includes(ambient[1].category)) {
+            playAmbient(ambient[1].ambient, 0, ambient[1].category);
+        }
+    });
+
+    activeAmbients.forEach(ambient => {
+        if (!ambientsInRequest.includes(ambient)) {
+            // Remove category from activeAmbients
+            var index = activeAmbients.indexOf(ambient);
+            if (index !== -1) activeAmbients.splice(index, 1);
+
+            document.getElementById(ambient).remove();
+        }
+    });
+});
+
+function playAmbient(newAmbient, duration = 0, category) {
+    let ambientPlayer = document.createElement("audio");
+    document.getElementById('ambientAudios').appendChild(ambientPlayer);
+    activeAmbients.push(category);
+
+    ambientPlayer.id = category;
+    ambientPlayer.src = newAmbient;
+    ambientPlayer.addEventListener('loadedmetadata', () => {
+        ambientPlayer.currentTime = duration;
+        ambientPlayer.play();
+    });
+}
 
 document.getElementById("startButton").addEventListener("click", function() {
     let requestStartTime = new Date();

@@ -69,6 +69,7 @@ app.post("/stop", (req, res) => {
 });
 
 app.use(express.static("music"));
+app.use(express.static("ambient"));
 
 let playNewCategory = category => {
     if (timeout) clearTimeout(timeout);
