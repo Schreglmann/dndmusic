@@ -39,7 +39,9 @@ socket.on('newAmbient', function (data) {
     Object.entries(message).forEach(ambient => {
         ambientsInRequest.push(ambient[1].category);
         if (!activeAmbients.includes(ambient[1].category)) {
-            playAmbient(ambient[1].ambient, 0, ambient[1].category);
+            playAmbient(ambient[1].ambient, ambient[1].timePassed, ambient[1].category);
+        } else if (ambient[1].timePassed < 3) {
+            playAmbient(ambient[1].ambient, ambient[1].timePassed, ambient[1].category);
         }
     });
 
@@ -55,12 +57,19 @@ socket.on('newAmbient', function (data) {
 });
 
 function playAmbient(newAmbient, duration = 0, category) {
-    let ambientPlayer = document.createElement("audio");
-    document.getElementById('ambientAudios').appendChild(ambientPlayer);
-    activeAmbients.push(category);
+    let ambientPlayer;
+    if (!document.getElementById(category)) {
+        ambientPlayer = document.createElement("audio");
+        document.getElementById('ambientAudios').appendChild(ambientPlayer);
+        activeAmbients.push(category);
+    } else {
+        ambientPlayer = document.getElementById(category);
+    }
 
     ambientPlayer.id = category;
     ambientPlayer.src = newAmbient;
+    ambientPlayer.volume = currentVolume;
+    ambientPlayer.controls = true;
     ambientPlayer.addEventListener('loadedmetadata', () => {
         ambientPlayer.currentTime = duration;
         ambientPlayer.play();
@@ -74,10 +83,22 @@ document.getElementById("startButton").addEventListener("click", function() {
     })
     .then((response) => response.json())
     .then((data) => {
-            player.src = data.currentSong;
-            player.addEventListener('loadedmetadata', () => {
-                player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
-                player.play();
-            })
-        });
+        player.src = data.currentSong;
+        player.addEventListener('loadedmetadata', () => {
+            player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
+            player.play();
+        })
+    });
+
+    fetch(remoteUrl + "/getCurrentAmbients", {
+        credentials: "same-origin",
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        // player.src = data.currentSong;
+        // player.addEventListener('loadedmetadata', () => {
+        //     player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
+        //     player.play();
+        // })
+    });
 });

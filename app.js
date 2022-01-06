@@ -57,6 +57,10 @@ app.get("/getCurrentSong", (req, res) => {
     else res.send({});
 });
 
+app.get("/getCurrentAmbients", (req, res) => {
+    sendAmbientSocket();
+});
+
 app.post("/newCategory", (req, res) => {
     if (req.body.type == 'music') playNewCategory(req.body.category);
     else if (req.body.type == 'ambient') playNewAmbientCategory(req.body.category);
@@ -114,15 +118,23 @@ let playNewAmbient = ambientCategory => {
         activeAmbient.infos[ambientCategory].ambient = ambientCategory + '/' + currentAmbient;
         songDuration = duration;
 
-        io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
-        currentCategoryAmbient.shift();
-
-        if (currentCategoryAmbient.length > 0) activeAmbient.timeouts[ambientCategory] = setTimeout(playNewAmbient, duration*1000);
-        else {
-            activeAmbient.timeouts[ambientCategory] = setTimeout(restartPlaylist, duration*1000, ambientCategory);
-        }
+        // currentCategoryAmbient.shift();
+        
+        activeAmbient.timeouts[ambientCategory] = setTimeout(playNewAmbient, duration*1000, ambientCategory);
+        sendAmbientSocket();
     });
 }
+
+let sendAmbientSocket = () => {
+    if (Object.entries(activeAmbient.timeouts)) {
+        Object.entries(activeAmbient.timeouts).forEach(timeout => {
+            activeAmbient.infos[timeout[0]].timePassed = getTimeLeft(timeout[1]);
+        })
+        console.log(activeAmbient.infos);
+        io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
+    }
+}
+
 let playNewSong = () => {
     currentSong = currentCategorySongs[0];
     
@@ -152,9 +164,10 @@ io.on('connection', (socket) => {
         timePassed = getTimeLeft(timeout);
         io.sockets.emit('newSong', JSON.stringify({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration, 'timePassed': timePassed}));
     }
+    sendAmbientSocket();
 });
 
-function getTimeLeft() {
-    if (currentSong == 'stop') return 0;
-    return songDuration - Math.abs((timeout._idleStart + timeout._idleTimeout)/1000 - process.uptime());
+function getTimeLeft(timeoutParam) {
+    if (currentSong == 'stop' || !timeoutParam) return 0;
+    return songDuration - Math.abs((timeoutParam._idleStart + timeoutParam._idleTimeout)/1000 - process.uptime());
 }

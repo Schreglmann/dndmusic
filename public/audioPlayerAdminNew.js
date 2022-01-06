@@ -42,6 +42,9 @@ fetch(remoteUrl + "/getFiles?path=" + type, {
           body.appendChild(button);
         }
       });
+    })
+    .catch (error => {
+        console.log(error);
     });
 }
 
