@@ -35,6 +35,7 @@ function changeVolume(higherLower) {
 
     document.getElementById('ambientAudios').childNodes.forEach(child => {
         child.volume = currentVolumeStep > 4 ? volumeSteps[currentVolumeStep-4] : volumeSteps[currentVolumeStep];
+        if (currentVolume == 0) child.volume = 0;
     })
 }
 
