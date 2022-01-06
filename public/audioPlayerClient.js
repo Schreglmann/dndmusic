@@ -68,7 +68,6 @@ function playAmbient(newAmbient, duration = 0, category) {
     ambientPlayer.id = category;
     ambientPlayer.src = newAmbient;
     ambientPlayer.volume = currentVolume;
-    ambientPlayer.controls = true;
     ambientPlayer.addEventListener('loadedmetadata', () => {
         ambientPlayer.currentTime = duration;
         ambientPlayer.play();
