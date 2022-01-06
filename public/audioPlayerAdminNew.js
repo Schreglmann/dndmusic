@@ -76,6 +76,12 @@ socket.on('newAmbient', function (data) {
     if (message) {
         console.log(message);
     }
+    document.getElementById('ambientButtons').childNodes.forEach (child => {
+        child.classList.remove('activeAmbient');
+    })
+    Object.entries(message).forEach(ambient => {
+        document.getElementById(ambient[1].category).className += ' activeAmbient';
+    });
 });
 
 function playAudio(category = "") {

@@ -52,7 +52,7 @@ app.get("/getFiles", (req, res) => {
 app.get("/getCurrentSong", (req, res) => {
     timePassed = getTimeLeft(timeout);
     if (currentSong == 'stop') res.send({'stopped': true});
-    else if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration, 'timePassed': timePassed});
+    else if (currentCategory || currentSong || songDuration) res.send({'currentSong': currentCategory + '/' + currentSong, 'duration': songDuration, 'timePassed': timePassed});
     else res.send({});
 });
 
@@ -128,7 +128,7 @@ let playNewAmbient = (ambientCategory, currentCategoryAmbient) => {
 let sendAmbientSocket = () => {
     if (Object.entries(activeAmbient.timeouts)) {
         Object.entries(activeAmbient.timeouts).forEach(timeout => {
-            activeAmbient.infos[timeout[0]].timePassed = getTimeLeft(timeout[1]);
+            if (activeAmbient.infos[timeout[0]]) activeAmbient.infos[timeout[0]].timePassed = getTimeLeft(timeout[1], activeAmbient.infos[timeout[0]].duration);
         })
         console.log(activeAmbient.infos);
         io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
@@ -167,7 +167,7 @@ io.on('connection', (socket) => {
     sendAmbientSocket();
 });
 
-function getTimeLeft(timeoutParam) {
+function getTimeLeft(timeoutParam, duration = songDuration) {
     if (currentSong == 'stop' || !timeoutParam) return 0;
-    return songDuration - Math.abs((timeoutParam._idleStart + timeoutParam._idleTimeout)/1000 - process.uptime());
+    return duration - Math.abs((timeoutParam._idleStart + timeoutParam._idleTimeout)/1000 - process.uptime());
 }

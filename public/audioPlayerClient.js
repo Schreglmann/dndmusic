@@ -39,7 +39,7 @@ socket.on('newAmbient', function (data) {
         ambientsInRequest.push(ambient[1].category);
         if (!activeAmbients.includes(ambient[1].category)) {
             playAmbient(ambient[1].ambient, ambient[1].timePassed, ambient[1].category);
-        } else if (ambient[1].timePassed < 3) {
+        } else if (ambient[1].timePassed < 1) {
             playAmbient(ambient[1].ambient, ambient[1].timePassed, ambient[1].category);
         }
     });
