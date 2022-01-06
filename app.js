@@ -91,7 +91,7 @@ let playNewCategory = category => {
 
 let playNewAmbientCategory = category => {
     if (activeAmbient.timeouts[category] != undefined) {
-        clearTimeout(activeAmbient.timeouts[category].timeout);
+        clearTimeout(activeAmbient.timeouts[category]);
         activeAmbient.timeouts[category] = undefined;
         activeAmbient.infos[category] = undefined;
         io.sockets.emit('newAmbient', JSON.stringify(activeAmbient.infos));
