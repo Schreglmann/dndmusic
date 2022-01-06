@@ -51,7 +51,7 @@ fetch(remoteUrl + "/getFiles?path=" + type, {
 loadMusic('music');
 loadMusic('ambient');
 
-  let showTimestamps = message => {
+let showTimestamps = message => {
     let innerHtml = '';
     if (message.currentSong) innerHtml += message.currentSong;
     if (message.duration) innerHtml += "<br>Dauer: " + timePassed + ' / ' + Math.round(message.duration) + " Sekunden";
@@ -59,7 +59,7 @@ loadMusic('ambient');
     document.getElementById("currentTime").innerHTML = innerHtml;
     timePassed++;
     timestampTimeout = setTimeout(showTimestamps, 1000, message);
-  }
+}
 
 var socket = io();
 socket.on('newSong', function (data) {

@@ -116,7 +116,6 @@ let playNewAmbient = (ambientCategory, currentCategoryAmbient) => {
         activeAmbient.infos[ambientCategory].duration = duration;
         activeAmbient.infos[ambientCategory].category = ambientCategory;
         activeAmbient.infos[ambientCategory].ambient = ambientCategory + '/' + currentAmbient;
-        songDuration = duration;
 
         // currentCategoryAmbient.shift();
         
@@ -157,6 +156,10 @@ let restartPlaylist = () => {
 let stop = () => {
     if (timeout) clearTimeout(timeout);
 	currentSong = 'stop';
+    songDuration = null;
+    currentCategory = null;
+    currentCategorySongs = null;
+    currentSong = null;
     io.sockets.emit('newSong', JSON.stringify({'currentSong': currentSong}));
 }
 io.on('connection', (socket) => {
