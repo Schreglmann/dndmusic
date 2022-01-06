@@ -93,12 +93,4 @@ document.getElementById("startButton").addEventListener("click", function() {
     fetch(remoteUrl + "/getCurrentAmbients", {
         credentials: "same-origin",
     })
-    .then((response) => response.json())
-    .then((data) => {
-        // player.src = data.currentSong;
-        // player.addEventListener('loadedmetadata', () => {
-        //     player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
-        //     player.play();
-        // })
-    });
 });
