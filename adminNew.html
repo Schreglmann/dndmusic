@@ -27,11 +27,15 @@
 <body>
     <div class="controlpanels">
         <div class="musicButtons stopButton" onclick="stopMusic()">Stop</div>
+        <div class="musicAmbientButtons">
+            <div id="musicSelectionButton" class="musicButtons stopButton activeAmbient" onclick="toggleSoundAmbient('music')">Music</div>
+            <div id="ambientSelectionButton" class="musicButtons stopButton" onclick="toggleSoundAmbient('ambient')">Ambient</div>
+        </div>
         <div id="currentTime"></div>
     </div>
 
     <div id="musicButtons"></div>
-    <div id="ambientButtons"></div>
+    <div id="ambientButtons" class="hidden"></div>
     <div id="btnSave" class="musicButtons btnSave">Add to Homescreen</div>
 
     <script>

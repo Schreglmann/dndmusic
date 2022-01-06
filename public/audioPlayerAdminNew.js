@@ -76,7 +76,7 @@ socket.on('newAmbient', function (data) {
     if (message) {
         console.log(message);
     }
-    document.getElementById('ambientButtons').childNodes.forEach (child => {
+    if (document.getElementById('ambientButtons')) document.getElementById('ambientButtons').childNodes.forEach (child => {
         child.classList.remove('activeAmbient');
     })
     Object.entries(message).forEach(ambient => {
@@ -114,4 +114,20 @@ function stopMusic() {
         "Content-Type": "application/json",
       },
     }); 
+}
+
+function toggleSoundAmbient(type) {
+    if (type == 'music') {
+        document.getElementById('musicButtons').classList.remove('hidden');
+        document.getElementById('ambientButtons').className += ' hidden';
+
+        document.getElementById('musicSelectionButton').className += ' activeAmbient';
+        document.getElementById('ambientSelectionButton').classList.remove('activeAmbient');
+    } else {
+        document.getElementById('musicButtons').className += ' hidden';
+        document.getElementById('ambientButtons').classList.remove('hidden');
+
+        document.getElementById('musicSelectionButton').classList.remove('activeAmbient');
+        document.getElementById('ambientSelectionButton').className += ' activeAmbient';
+    }
 }
