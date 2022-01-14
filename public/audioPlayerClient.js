@@ -88,6 +88,8 @@ document.getElementById("startButton").addEventListener("click", function() {
         })
     });
 
+    document.getElementById('ambientAudios').innerHTML = '';
+     activeAmbients = new Array();
     fetch(remoteUrl + "/getCurrentAmbients", {
         credentials: "same-origin",
     })
