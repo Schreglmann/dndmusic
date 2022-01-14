@@ -86,11 +86,12 @@ document.getElementById("startButton").addEventListener("click", function() {
             player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
             player.play();
         })
-    });
-
-    document.getElementById('ambientAudios').innerHTML = '';
-     activeAmbients = new Array();
-    fetch(remoteUrl + "/getCurrentAmbients", {
-        credentials: "same-origin",
+    }).then(() => {
+        document.getElementById('ambientAudios').innerHTML = '';
+         activeAmbients = new Array();
+        fetch(remoteUrl + "/getCurrentAmbients", {
+            credentials: "same-origin",
+        })
     })
+
 });
