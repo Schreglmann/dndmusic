@@ -37,17 +37,24 @@ app.get("/", (req, res) => {
 app.get("/admin", (req, res) => {
 	res.sendFile(path.join(__dirname, "/adminNew.html"));
 });
-app.get("/getFiles", (req, res) => {
-	let musicFiles = [];
-	fs.readdir(req.query.path, (err, files) => {
-		if (files) {
-			files.forEach((file) => {
-				if (file[0] != ".") musicFiles.push(file);
-			});
-		}
-		res.send(musicFiles);
-	});
+app.get("/getFiles", async (req, res) => {
+    let folders = await getFiles(req.query.path);
+    res.send(folders);
 });
+
+let getFiles = url => {
+    return new Promise(resolve => {
+    	let musicFiles = [];
+        fs.readdir(url, (err, files) => {
+            if (files) {
+                files.forEach((file) => {
+                    if (file[0] != ".") musicFiles.push(file);
+                });
+            }
+            resolve(musicFiles);
+        });
+    })
+}
 
 app.get("/getCurrentSong", (req, res) => {
     timePassed = getTimeLeft(timeout);
