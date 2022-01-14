@@ -33,7 +33,10 @@ socket.on('newSong', function (data) {
     playAudio(message.currentSong, message.timePassed);
 });
 socket.on('newAmbient', function (data) {
-    let message = JSON.parse(data);
+    newAmbient(JSON.parse(data));
+});
+
+let newAmbient = message => {
     let ambientsInRequest = new Array();
     Object.entries(message).forEach(ambient => {
         ambientsInRequest.push(ambient[1].category);
@@ -53,7 +56,7 @@ socket.on('newAmbient', function (data) {
             document.getElementById(ambient).remove();
         }
     });
-});
+}
 
 function playAmbient(newAmbient, duration = 0, category) {
     let ambientPlayer;
@@ -85,13 +88,14 @@ document.getElementById("startButton").addEventListener("click", function() {
         player.addEventListener('loadedmetadata', () => {
             player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
             player.play();
-
-            document.getElementById('ambientAudios').innerHTML = '';
-            activeAmbients = new Array();
-            fetch(remoteUrl + "/getCurrentAmbients", {
-                credentials: "same-origin",
-            })
         })
     })
 
+    document.getElementById('ambientAudios').innerHTML = '';
+    activeAmbients = new Array();
+    fetch(remoteUrl + "/getCurrentAmbients", {
+        credentials: "same-origin",
+    })
+    .then((response) => response.json())
+    .then((data) => newAmbient(data))
 });

@@ -64,7 +64,7 @@ app.get("/getCurrentSong", (req, res) => {
 });
 
 app.get("/getCurrentAmbients", (req, res) => {
-    sendAmbientSocket();
+    res.send(JSON.stringify(activeAmbient.infos));
 });
 
 app.post("/newCategory", (req, res) => {
