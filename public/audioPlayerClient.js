@@ -85,7 +85,7 @@ document.getElementById("startButton").addEventListener("click", function() {
         player.addEventListener('loadedmetadata', () => {
             player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
             player.play();
-        }).then(() => {
+
             document.getElementById('ambientAudios').innerHTML = '';
             activeAmbients = new Array();
             fetch(remoteUrl + "/getCurrentAmbients", {
