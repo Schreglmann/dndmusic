@@ -26,10 +26,6 @@ app.use(
 app.use(express.static("public"));
 app.use(express.static("images"));
 app.use(express.json());
-app.use(basicAuth({
-    challenge: true,
-    users: { 'admin': 'admin' }
-}))
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client.html"));
