@@ -15,7 +15,7 @@ showTimestamps();
 function playAudio(newSong, duration = 0) {
     document.getElementById("currentTime").innerHTML = "Aktuelle Wiedergabe: " + Math.round(player.currentTime) + " sec / " + Math.round(player.duration) + " sec";
     if (newSong != currentSong) {
-        currentSong = newSong;
+        currentSong = remoteUrl + "/" + newSong;
         player.pause();
         if (currentSong != "stop") {
             player.src = currentSong;
@@ -27,7 +27,7 @@ function playAudio(newSong, duration = 0) {
     }
 }
 
-var socket = io();
+var socket = io(remoteUrl);
 socket.on('newSong', function (data) {
     let message = JSON.parse(data);
     playAudio(message.currentSong, message.timePassed);
@@ -69,7 +69,7 @@ function playAmbient(newAmbient, duration = 0, category) {
     }
 
     ambientPlayer.id = category;
-    ambientPlayer.src = newAmbient;
+    ambientPlayer.src = currentSong = remoteUrl + "/" + newAmbient;
     ambientPlayer.volume = currentVolume;
     ambientPlayer.addEventListener('loadedmetadata', () => {
         ambientPlayer.currentTime = duration;
@@ -84,7 +84,7 @@ document.getElementById("startButton").addEventListener("click", function() {
     })
     .then((response) => response.json())
     .then((data) => {
-        player.src = data.currentSong;
+        player.src = remoteUrl + "/" + data.currentSong;
         player.addEventListener('loadedmetadata', () => {
             player.currentTime = data.timePassed + (new Date() - requestStartTime)/1000;
             player.play();
